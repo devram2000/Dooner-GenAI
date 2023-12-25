@@ -1,4 +1,4 @@
-# SJU Sustainability Plan Project Repository
+# Generative AI SJU Sustainability Plan Project Repository
 
 ## Overview
 This repository hosts a collection of Python scripts integral to creating the Saint John's University (SJU) Sustainability Plan. The centerpiece, `api_model.py`, interfaces with the OpenAI API to generate the plan's content. Additional scripts offer functionalities like text extraction, summarization, interactive GPT interface, and PDF formatting.
