@@ -1,4 +1,6 @@
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 import os
 from tqdm import tqdm
 
@@ -12,14 +14,12 @@ def split_corpus_by_title(file_path):
 
 # Function to send a prompt to GPT-4 and receive a response
 def get_input(prompt, info, model="gpt-4-1106-preview", max_tokens=4096):
-    response = openai.ChatCompletion.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": info}
-        ],
-        max_tokens=max_tokens,
-    )
+    response = client.chat.completions.create(model=model,
+    messages=[
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": info}
+    ],
+    max_tokens=max_tokens)
     return response.choices[0].message.content
 
 # Function to create an enhanced summary prompt for each university plan
@@ -52,7 +52,6 @@ def create_safe_filename(counter):
 
 # Main script
 def main(file_path, output_dir, max_filename_length=255):
-    openai.api_key = os.getenv('OPENAI_API_KEY')
     university_plans = split_corpus_by_title(file_path)
 
     if not os.path.exists(output_dir):

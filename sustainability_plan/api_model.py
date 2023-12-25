@@ -1,22 +1,22 @@
 import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 import os 
 
 # Set your API key
-openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Function to send a prompt to GPT-4 and receive a response
 def get_input(prompt, info, model="gpt-4-1106-preview", max_tokens=4096):
     try:
-        response = openai.ChatCompletion.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": info}
-            ],
-            max_tokens=max_tokens,
-        )
+        response = client.chat.completions.create(model=model,
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": info}
+        ],
+        max_tokens=max_tokens)
         return response.choices[0].message.content
-    except openai.error.OpenAIError as e:
+    except openai.OpenAIError as e:
         print(f"An error occurred: {e}")
         return None
 

@@ -1,18 +1,17 @@
 import os 
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 
 def generate_sustainability_plan(model_name, organization):
-    openai.api_key = os.getenv('OPENAI_API_KEY')
 
     try:
-        response = openai.ChatCompletion.create(
-            model=model_name,
-            messages=[
-                {"role": "system", "content": "You are an AI trained to create sustainability plans for universities."},
-                {"role": "user", "content": f"Create a sustainability plan for {organization}."}
-            ]
-        )
+        response = client.chat.completions.create(model=model_name,
+        messages=[
+            {"role": "system", "content": "You are an AI trained to create sustainability plans for universities."},
+            {"role": "user", "content": f"Create a sustainability plan for {organization}."}
+        ])
 
         plan = response.choices[0].message if response.choices else "No response generated."
         return plan
